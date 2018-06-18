@@ -1,23 +1,20 @@
+all: src/gram.c
 
-all: ../../src/gram.c
-
-../../src/%.y: %.y
+src/%.y: inst/grammar/%.y
 	cp $< $@
 
-../../src/%.c: ../../src/%.y
+src/%.c: src/%.y
 	cd src; bison -v gram.y -o gram.c
 	-mv src/gram.output inst/grammar
 
-gram.output: ../../src/gram.c
+inst/grammar/gram.output: src/gram.c
 inst/grammar/%.output: src/%.output
 	mv $< $@
 	
-symbols: ../data/grammar_symbols.rda
-../data/grammar_symbols.rda: grammar_symbols.R gram.output
+data/grammar_symbols.rda: inst/grammar/grammar_symbols.R inst/grammar/gram.output
 	Rscript $^ $@
 
-.PHONY: clean symbols
+.PHONY: clean
 clean:
-	-mv ../../src/gram.output ../../inst/grammar
-	-rm -f ../../src/gram.y
-
+	-mv src/gram.output inst/grammar
+	-rm -f src/gram.y

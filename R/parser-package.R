@@ -1,5 +1,3 @@
-
-
 #' @name count.chars
 #' @title Counts the number of characters and bytes in each line of a file
 #' 

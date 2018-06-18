@@ -1,16 +1,16 @@
 #include <Rinternals.h>
-#include <parser.h>
+#include "parser.h"
 
-static Rboolean known_to_be_utf8 = FALSE ;
-static Rboolean known_to_be_latin1 = FALSE ;
+Rboolean known_to_be_utf8 = FALSE ;
+Rboolean known_to_be_latin1 = FALSE ;
 
 Rboolean get_latin1(){ return known_to_be_latin1 ; }
 void set_latin1( Rboolean value ) { known_to_be_latin1 = value ; }
-    
+
 Rboolean get_utf8(){ return known_to_be_utf8 ; }
 void set_utf8(Rboolean value) { known_to_be_utf8 = value ; }
 
-/** 
+/**
  * same as _fgetc but without the \r business
  */
 #ifdef Win32
@@ -31,9 +31,9 @@ inline int __fgetc(FILE* fp){
 #endif
 
 /*{{{ nlines */
-/** 
+/**
  * Get the number of lines from a file
- * 
+ *
  * @param fname the name of the file
  */
 int nlines( const char* fname ){
@@ -41,9 +41,9 @@ int nlines( const char* fname ){
 	if((fp = _fopen(R_ExpandFileName( fname ), "r")) == NULL){
 		error(_("unable to open file to read"), 0);
 	}
-	
+
 	int c, previous = 0 ;
-	int n = 0 ; 
+	int n = 0 ;
 #ifdef Win32
 	while( (c = __fgetc(fp)) ){
 #else
@@ -61,16 +61,16 @@ if( c ==  R_EOF ){
 	if( previous != '\n' ){
 		n++;
 	}
-	return n ; 
+	return n ;
 }
 /*}}}*/
 
 /*{{{ do_countchars */
 SEXP countchars( const char* fname, int nl){
-	
+
 	// to quiet warnings
 	known_to_be_latin1 = known_to_be_latin1 ;
-	
+
 	SEXP result ;
 	PROTECT( result = allocVector( INTSXP, nl*2) ) ;
 	FILE *fp;
@@ -79,7 +79,7 @@ SEXP countchars( const char* fname, int nl){
 	}
 	int c ;
 	int col = 0 ;
-	int bytes = 0; 
+	int bytes = 0;
 	int i =0;
 	while( (c = _fgetc(fp)) ){
 		if( c ==  R_EOF ){
@@ -92,14 +92,14 @@ SEXP countchars( const char* fname, int nl){
 		} else{
 			col++ ;
 			bytes++ ;
-			
-			if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){ 
+
+			if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){
 		    	bytes--;
 			}
 			if (c == '\t'){
 				col = ((col + 7) & ~7);
 			}
-			
+
 		}
 	}
 	fclose( fp ) ;
@@ -108,7 +108,7 @@ SEXP countchars( const char* fname, int nl){
 	INTEGER(dims)[0]=nl;
 	INTEGER(dims)[1]=2;
 	setAttrib( result, mkString( "dim" ), dims ) ;
-	UNPROTECT( 2 ); // result, dim 
+	UNPROTECT( 2 ); // result, dim
 	return result ;
 
 }
@@ -117,4 +117,3 @@ SEXP countchars( const char* fname, int nl){
 /*}}}*/
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-

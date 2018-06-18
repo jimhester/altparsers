@@ -6,24 +6,13 @@ Date: 2012-11-02
 Author: Romain Francois <romain@r-enthusiasts.com>
 Maintainer: Andrew Redd <Andrew.Redd@hsc.utah.edu>
 Description: detailed source code parser, based on the
-    standard R parser but organizing the information differently
+    standard R parser but organizing the information differently.
 License: GPL (>= 2.0)
 Depends:
-    methods,
-    R (>= 2.15.0),
-    Rcpp (>= 0.9.11)
-Suggests:
-    igraph,
-    testthat
+    R (>= 2.15.0)
 Imports:
-    testthat
+    Rcpp (>= 0.9.11)
 LinkingTo: Rcpp
 LazyData: yes
-RcppModules: parser_module
 URL: https://github.com/halpo/parser
-Collate:
-    'parser-package.R'
-    'parser.R'
-    'plot.parser.R'
-    'zzz.R'
 RoxygenNote: 6.0.1

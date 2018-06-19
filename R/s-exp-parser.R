@@ -8,7 +8,7 @@ parse_token <- function(word) {
   word
 }
 
-parse_sexp <- function(text) {
+sexp_parser <- function(text) {
    chars <- strsplit(text, "")[[1]]
    parse_call <- function(start) {
      call <- list()

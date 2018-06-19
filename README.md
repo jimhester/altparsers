@@ -1,20 +1,22 @@
-The `parser` R package.
-=======================
+# altparsers
 
-Introduction
-------------
+The `altparsers` package allows the user or package developer to use
+alternative parsers for R code. It provides helpers for parsing and evaluating
+code and for starting a REPL with a non-standard R parser.
 
-The `parser` package is an alternative implementation of the base R parser.
-The expressions returned are the same but the information is presented slightly
-different from the base parser.
+The expressions returned by the parsers are valid R expressions and are
+evaluated in the same way as normal R code.
 
-The parser package was originally written by Romain Francois, but is now being
-maintained by Andrew Redd.  The source code is based off the 
-[GNU bison](http://www.gnu.org/software/bison/) parser project.
 
-Reporting Bugs
---------------
-The github [issues tracker](https://github.com/halpo/parser/issues) will
-be used to request bug fixes and feature requests.  The github fork/pull 
-system will also be used for any submitting fixes.
+```{r}
+library(altparsers)
+repl(parser = tidy_parser)
+[1, 2, 3] |> head(n = 1)
+```
 
+```{r}
+repl(parser = sexp_parser)
+(= x 5)
+(== x 5)
+(+ x (* 3 5))
+```

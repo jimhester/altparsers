@@ -2,9 +2,10 @@
 
 export("[]")
 export(a)
-export(parse2)
 export(parse_file)
 export(parse_text)
+export(repl)
 export(src)
+export(tidy_parser)
 importFrom(Rcpp,sourceCpp)
 useDynLib(altparsers, .registration = TRUE)

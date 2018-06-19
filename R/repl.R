@@ -19,7 +19,12 @@ handle_error <- function(e) {
   cat("Error in ", deparse(conditionCall(e)), ":", conditionMessage(e), "\n")
 }
 
-repl <- function(env = parent.frame(), parser = parse_text) {
+#' Launch a Read Eval Print Loop
+#'
+#' @param parser the parsing function to use
+#' @param envir environment to perform evaluations in
+#' @export
+repl <- function(parser = parse_text, envir = parent.frame()) {
   prompt <- "> "
   cmd <- character()
   repeat {
@@ -45,7 +50,7 @@ repl <- function(env = parent.frame(), parser = parse_text) {
 
   # Eval
     for (e in ans) {
-      e <- tryCatch(withVisible(eval(e, envir = env)), error = function(e) e)
+      e <- tryCatch(withVisible(eval(e, envir = envir)), error = function(e) e)
 
   # Print
       if (inherits(e, "error")) {
@@ -98,7 +103,7 @@ src <- function(file, parser = parse_file, envir = parent.frame()) {
 
 .onLoad <- function(libname, pkgname) {
   src(Sys.glob(file.path(system.file(package = "altparsers", "r2"), "*.r2")),
-    parser = function(x) parse2(readLines(x)),
+    parser = function(x) tidy_parser(readLines(x)),
     #parser = parse_file,
     envir = asNamespace(pkgname))
 }

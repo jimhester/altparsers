@@ -11,12 +11,19 @@ evaluated in the same way as normal R code.
 ```{r}
 library(altparsers)
 repl(parser = tidy_parser)
-[1, 2, 3] |> head(n = 1)
+#> [1, 2, 3] |> head(n = 1)
 ```
 
 ```{r}
 repl(parser = sexp_parser)
 (= x 5)
 (== x 5)
+#> [1] TRUE
 (+ x (* 3 5))
+#> [1] 20
 ```
+
+## Within package
+
+```{r}
+

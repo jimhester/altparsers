@@ -1798,7 +1798,7 @@ static void yyerror(const char *s)
 	"OR2",		"'||'",
 	"NS_GET",	"'::'",
 	"NS_GET_INT",	"':::'",
-	"PIPE",         "'>>'",
+	"PIPE",         "'|>'",
 	0
     };
     static char const yyunexpected[] = "syntax error, unexpected ";
@@ -2777,10 +2777,6 @@ static int token(void)
 	    yylval = install_and_save(">=");
 	    return GE;
 	}
-	else if (nextchar('>')) {
-	    yylval = install_and_save(">>");
-	    return PIPE;
-	}
 	yylval = install_and_save(">");
 	return GT;
     case '!':
@@ -2825,6 +2821,10 @@ static int token(void)
 	if (nextchar('|')) {
 	    yylval = install_and_save("||");
 	    return OR2;
+	}
+	else if (nextchar('>')) {
+	    yylval = install_and_save("|>");
+	    return PIPE;
 	}
 	yylval = install_and_save("|");
 	return OR;
@@ -3527,7 +3527,7 @@ int replace_placeholder_list (SEXP lang, SEXP lhs)
         }
 
         // Only necessary with primitive impl. |>, not with parser impl. >>
-        if (is_pipe(cur)) break;
+        /*if (is_pipe(cur)) break;*/
 
         prev = CDR(prev);
     }

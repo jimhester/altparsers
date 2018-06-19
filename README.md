@@ -22,8 +22,3 @@ repl(parser = sexp_parser)
 (+ x (* 3 5))
 #> [1] 20
 ```
-
-## Within package
-
-```{r}
-

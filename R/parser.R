@@ -1,5 +1,5 @@
 #' @importFrom Rcpp sourceCpp
-#' @useDynLib parser, .registration = TRUE
+#' @useDynLib altparsers, .registration = TRUE
 NULL
 
 #' Alternative parser for R code

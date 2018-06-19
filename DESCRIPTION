@@ -1,12 +1,20 @@
-Package: parser
+Package: altparsers
 Type: Package
-Title: Detailed R source code parser
+Title: Use alternative parsers for R code
 Version: 0.1
 Date: 2012-11-02
-Author: Romain Francois <romain@r-enthusiasts.com>
-Maintainer: Andrew Redd <Andrew.Redd@hsc.utah.edu>
-Description: detailed source code parser, based on the
-    standard R parser but organizing the information differently.
+Authors@R: c(
+    person("Jim", "Hester", email = "james.f.hester@gmail.com", role = c("aut", "cre")),
+    person("Romain", "Francois", role = c("ctb"),
+      comment = "parser package, from which this was adapted"),
+    person("Andrew", "Redd", role = c("ctb"),
+      comment = "parser package, from which this was adapted"),
+    person("R Core team", role = "ctb",
+      comment = "Original R parser code and supporting files")
+    )
+Description: Allows use of alternative parsers in R packages and interactively.
+  These parsers generate regular R abstract syntax trees, but can contain
+  additional features not present in the normal R parser.
 License: GPL (>= 2.0)
 Depends:
     R (>= 2.15.0)
@@ -14,5 +22,5 @@ Imports:
     Rcpp (>= 0.9.11)
 LinkingTo: Rcpp
 LazyData: yes
-URL: https://github.com/halpo/parser
+URL: https://github.com/jimhester/altparsers
 RoxygenNote: 6.0.1

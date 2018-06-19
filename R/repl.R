@@ -96,4 +96,9 @@ src <- function(file, parser = parse_file, envir = parent.frame()) {
   }
 }
 
-src(Sys.glob(file.path(system.file(package = "altparsers", "r2"), "*.r2")))
+.onLoad <- function(libname, pkgname) {
+  src(Sys.glob(file.path(system.file(package = "altparsers", "r2"), "*.r2")),
+    parser = function(x) parse2(readLines(x)),
+    #parser = parse_file,
+    envir = asNamespace(pkgname))
+}

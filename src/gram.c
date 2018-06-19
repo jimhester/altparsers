@@ -3769,8 +3769,6 @@ SEXP R_ParseFile(FILE *fp, int n, ParseStatus *status, SEXP srcfile)
     return R_Parse(n, status, srcfile);
 }
 
-static Rconnection con_parse;
-
 /* This one is public, and used in source.c */
 SEXP R_ParseVector(SEXP text, int n, ParseStatus *status, SEXP srcfile)
 {
@@ -3784,105 +3782,6 @@ SEXP R_ParseVector(SEXP text, int n, ParseStatus *status, SEXP srcfile)
     R_TextBufferFree(&textb);
     return rval;
 }
-
-static const char *Prompt(SEXP prompt, int type)
-{
-    if(type == 1) {
-	if(length(prompt) <= 0) {
-	    return CHAR(STRING_ELT(GetOption1(install("prompt")), 0));
-	}
-	else
-	    return CHAR(STRING_ELT(prompt, 0));
-    }
-    else {
-	return CHAR(STRING_ELT(GetOption1(install("continue")), 0));
-    }
-}
-
-/* used in source.c */
-attribute_hidden
-SEXP R_ParseBuffer(IoBuffer *buffer, int n, ParseStatus *status, SEXP prompt, 
-		   SEXP srcfile)
-{
-    SEXP rval, t;
-    char *bufp, buf[CONSOLE_BUFFER_SIZE];
-    int c, i, prompt_type = 1;
-    int savestack;
-
-    R_IoBufferWriteReset(buffer);
-    buf[0] = '\0';
-    bufp = buf;
-    R_InitSrcRefState();    
-    savestack = R_PPStackTop;
-    PROTECT(t = NewList());
-    
-    GenerateCode = 1;
-    iob = buffer;
-    ptr_getc = buffer_getc;
-
-    REPROTECT(ParseState.SrcFile = srcfile, ParseState.SrcFileProt);
-    REPROTECT(ParseState.Original = srcfile, ParseState.OriginalProt);
-    
-    if (isEnvironment(ParseState.SrcFile)) {
-    	ParseState.keepSrcRefs = TRUE;
-	PROTECT_WITH_INDEX(SrcRefs = R_NilValue, &srindex);
-    }
-    
-    for(i = 0; ; ) {
-	if(n >= 0 && i >= n) break;
-	if (!*bufp) {
-	    if(R_ReadConsole((char *) Prompt(prompt, prompt_type),
-			     (unsigned char *)buf, CONSOLE_BUFFER_SIZE, 1) == 0)
-		goto finish;
-	    bufp = buf;
-	}
-	while ((c = *bufp++)) {
-	    R_IoBufferPutc(c, buffer);
-	    if (c == ';' || c == '\n') break;
-	}
-
-	/* Was a call to R_Parse1Buffer, but we don't want to reset
-	   xxlineno and xxcolno */
-	ParseInit();
-	ParseContextInit();
-	R_Parse1(status);
-	rval = R_CurrentExpr;
-
-	switch(*status) {
-	case PARSE_NULL:
-	    break;
-	case PARSE_OK:
-	    t = GrowList(t, rval);
-	    i++;
-	    break;
-	case PARSE_INCOMPLETE:
-	case PARSE_ERROR:
-	    R_IoBufferWriteReset(buffer);
-	    R_PPStackTop = savestack;
-	    R_FinalizeSrcRefState();
-	    return R_NilValue;
-	    break;
-	case PARSE_EOF:
-	    goto finish;
-	    break;
-	}
-    }
-finish:
-    R_IoBufferWriteReset(buffer);
-    t = CDR(t);
-    PROTECT(rval = allocVector(EXPRSXP, length(t)));
-    for (n = 0 ; n < LENGTH(rval) ; n++, t = CDR(t))
-	SET_VECTOR_ELT(rval, n, CAR(t));
-    if (ParseState.keepSrcRefs) {
-	finalizeData();
-	rval = attachSrcrefs(rval);
-    }
-    R_PPStackTop = savestack; /* UNPROTECT lots! */
-    R_FinalizeSrcRefState();    
-    *status = PARSE_OK;
-    return rval;
-}
-
 
 /*----------------------------------------------------------------------------
  *
@@ -5813,15 +5712,14 @@ static void growID( int target ){
 
 SEXP attribute_visible do_parser(SEXP text)
 {
-    SEXP s, source;
-    Rconnection con;
-    Rboolean wasopen, old_latin1 = known_to_be_latin1,
+    SEXP s;
+    Rboolean old_latin1 = known_to_be_latin1,
 	old_utf8 = known_to_be_utf8, allKnown = TRUE;
-    int ifile, num, i;
-    const char *encoding;
+    int i;
     ParseStatus status;
 
-    if (Rf_length(text) > 0) {
+	s = R_NilValue;
+	if (Rf_length(text) > 0) {
 	/* If 'text' has known encoding then we can be sure it will be
 	   correctly re-encoded to the current encoding by
 	   translateChar in the parser and so could mark the result in
@@ -5840,8 +5738,7 @@ SEXP attribute_visible do_parser(SEXP text)
 	    known_to_be_latin1 = old_latin1;
 	    known_to_be_utf8 = old_utf8;
 	}
-	if (num == NA_INTEGER) num = -1;
-	s = R_ParseVector(text, num, &status, source);
+	s = R_ParseVector(text, -1, &status, R_NilValue);
 	if (status != PARSE_OK) parseError(text, R_ParseError);
     }
     known_to_be_latin1 = old_latin1;

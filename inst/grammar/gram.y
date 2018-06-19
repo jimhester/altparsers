@@ -327,7 +327,7 @@ static int	xxvalue(SEXP, int, YYLTYPE *);
 %left		'*' '/'
 %left		SPECIAL
 %left		':'
-%left		UMINUS UPLUS
+%left		UMINUS UPLUS UNQUOTE UNQUOTESPLICE
 %right		'^'
 %left		'$' '@'
 %left		NS_GET NS_GET_INT
@@ -363,6 +363,8 @@ expr	: 	NUM_CONST			{ $$ = $1;	setId( $$, @$); }
 	|	'+' expr %prec UMINUS		{ $$ = xxunary($1,$2);	setId( $$, @$); }
 	|	'!' expr %prec UNOT		{ $$ = xxunary($1,$2);	setId( $$, @$); }
 	|	'~' expr %prec TILDE		{ $$ = xxunary($1,$2);	setId( $$, @$); }
+	|	UNQUOTE expr %prec UNQUOTE		{ $$ = xxunary($1,$2);	setId( $$, @$); }
+	|	UNQUOTESPLICE expr %prec UNQUOTESPLICE		{ $$ = xxunary($1,$2);	setId( $$, @$); }
 	|	SPECIAL expr			{ $$ = xxunary($1,$2);	setId( $$, @$); }
 	|	'?' expr			{ $$ = xxunary($1,$2);	setId( $$, @$); }
 
@@ -2782,6 +2784,14 @@ static int token(void)
 	if (nextchar('=')) {
 	    yylval = install_and_save("!=");
 	    return NE;
+	}
+	else if (nextchar('!')) {
+	  if (nextchar('!')) {
+		  yylval = install_and_save("!!!");
+		  return UNQUOTESPLICE;
+	  }
+	  yylval = install_and_save("!!");
+	  return UNQUOTE;
 	}
 	yylval = install_and_save("!");
 	return '!';

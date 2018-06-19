@@ -25,7 +25,6 @@
 #endif
 
 #include "IOStuff.h"		/*-> Defn.h */
-#include "Fileio.h"
 #include "parser.h"
 #include <R_ext/Print.h>
 #include <R_ext/Connections.h>

@@ -8,3 +8,7 @@ NULL
 parse2 <- function(text) {
   .Call("do_parser", as.character(text))
 }
+
+#' Create lists
+#' @export
+`[]` <- function(...) list(...)

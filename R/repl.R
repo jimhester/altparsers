@@ -47,6 +47,9 @@ repl <- function(parser = parse_text, envir = parent.frame()) {
 
       next
     }
+    if (is_quit(ans)) {
+      return(invisible())
+    }
 
   # Eval
     for (e in ans) {
@@ -63,6 +66,13 @@ repl <- function(parser = parse_text, envir = parent.frame()) {
     prompt <- "> "
     cmd <- character()
   }
+}
+
+is_quit <- function(e) {
+  (!inherits(e, "error") &&
+    length(e) == 1 &&
+    is.call(e[[1]]) &&
+    as.character(e[[1]][[1]]) == "q")
 }
 
 #' Test

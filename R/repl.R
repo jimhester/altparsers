@@ -68,7 +68,7 @@ repl <- function(parser = parse_text, envir = parent.frame()) {
 #' Test
 #' @name a
 #' @examples
-#' a()
+#' a(mtcars, hp > 10)
 #' @export
 NULL
 
@@ -88,22 +88,19 @@ parse_file <- function(x) {
 
 #' Source a file with an alternative parser
 #'
-#' @param file The file to parse
+#' @param dir The installed directory from which to parse files
+#' @param files The files to parse
 #' @param parser The parser to use, should take the file to parse as the first parameter
 #' @param envir The environment to evaluate the parsed code in
 #' @export
-src <- function(file, parser = parse_file, envir = parent.frame()) {
-  for (f in file) {
+src <- function(dir, files = NULL, parser = parse_file, envir = asNamespace(utils::packageName())) {
+  if (is.null(files)) {
+    files <- list.files(system.file(package = utils::packageName(), dir), full.names = TRUE)
+  }
+  for (f in files) {
     exprs <- parser(f)
     for (e in exprs) {
       eval(e, envir = envir)
     }
   }
-}
-
-.onLoad <- function(libname, pkgname) {
-  src(Sys.glob(file.path(system.file(package = "altparsers", "r2"), "*.r2")),
-    parser = function(x) tidy_parser(readLines(x)),
-    #parser = parse_file,
-    envir = asNamespace(pkgname))
 }

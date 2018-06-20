@@ -17,8 +17,10 @@ Description: Allows use of alternative parsers in R packages and interactively.
   additional features not present in the normal R parser.
 License: GPL (>= 2.0)
 Depends:
-    R (>= 2.15.0)
+    R (>= 2.15.0),
+    glue
 Imports:
+    utils,
     Rcpp (>= 0.9.11)
 LinkingTo: Rcpp
 LazyData: yes

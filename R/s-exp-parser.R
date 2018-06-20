@@ -8,7 +8,17 @@ parse_token <- function(word) {
   word
 }
 
-sexp_parser <- function(text) {
+#' Alternative S-expression parser for R code
+#' @inheritParams base::parse
+#' @rdname sexp_parse
+#' @export
+sexp_parse_file <- function(file) {
+  sexp_parse_text(readLines(file))
+}
+
+#' @rdname sexp_parse
+#' @export
+sexp_parse_text <- function(text) {
    chars <- strsplit(text, "")[[1]]
    parse_call <- function(start) {
      call <- list()

@@ -4,14 +4,15 @@
 \alias{src}
 \title{Source a file with an alternative parser}
 \usage{
-src(file, parser = parse_file, envir = parent.frame())
+src(dir, files = NULL, parser = parse_file,
+  envir = asNamespace(packageName()))
 }
 \arguments{
-\item{file}{The file to parse}
-
 \item{parser}{The parser to use, should take the file to parse as the first parameter}
 
 \item{envir}{The environment to evaluate the parsed code in}
+
+\item{file}{The file to parse}
 }
 \description{
 Source a file with an alternative parser

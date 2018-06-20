@@ -282,6 +282,7 @@ static SEXP	xxunary(SEXP, SEXP);
 static SEXP	xxbinary(SEXP, SEXP, SEXP);
 static SEXP	xxparen(SEXP, SEXP);
 static SEXP	xxbrackets(SEXP, SEXP);
+static SEXP	xxglue(SEXP);
 static SEXP	xxsubscript(SEXP, SEXP, SEXP);
 static SEXP	xxexprlist(SEXP, YYLTYPE *, SEXP);
 static int	xxvalue(SEXP, int, YYLTYPE *);
@@ -293,7 +294,7 @@ static int	xxvalue(SEXP, int, YYLTYPE *);
 %token-table
 
 %token		END_OF_INPUT ERROR
-%token		STR_CONST RAW_STR_CONST NUM_CONST NULL_CONST SYMBOL FUNCTION 
+%token		STR_CONST RAW_STR_CONST GLUE_STR_CONST NUM_CONST NULL_CONST SYMBOL FUNCTION 
 %token		INCOMPLETE_STRING
 %token		LEFT_ASSIGN EQ_ASSIGN RIGHT_ASSIGN LBB
 %token		FOR IN IF ELSE WHILE NEXT BREAK REPEAT
@@ -351,6 +352,7 @@ equal_assign    :    expr EQ_ASSIGN expr_or_assign              { $$ = xxbinary(
 
 expr	: 	NUM_CONST			{ $$ = $1;	setId( $$, @$); }
 	|	RAW_STR_CONST			{ $$ = $1;	setId( $$, @$); }
+	|	GLUE_STR_CONST			{ $$ = xxglue($1);	setId( $$, @$); }
 	|	STR_CONST			{ $$ = $1;	setId( $$, @$); }
 	|	NULL_CONST			{ $$ = $1;	setId( $$, @$); }          
 	|	SYMBOL				{ $$ = $1;	setId( $$, @$); }
@@ -1028,6 +1030,14 @@ static SEXP xxbrackets(SEXP expr, SEXP args)
 {
     expr = PROTECT(install("[]"));
     return xxfuncall(expr, args);
+}
+
+static SEXP xxglue(SEXP str)
+{
+  SEXP ans;
+  SEXP expr = PROTECT(install("glue"));
+  PROTECT(ans = LCONS(expr, CONS(str, R_NilValue)));
+  return ans;
 }
 
 /* This should probably use CONS rather than LCONS, but
@@ -1770,6 +1780,7 @@ static void yyerror(const char *s)
 	"ERROR",	"input",
 	"STR_CONST",	"string constant",
 	"RAW_STR_CONST", "raw string constant",
+	"GLUE_STR_CONST", "glue string constant",
 	"NUM_CONST",	"numeric constant",
 	"SYMBOL",	"symbol",
 	"LEFT_ASSIGN",	"assignment",
@@ -2505,6 +2516,12 @@ static int StringValue(int c, Rboolean forSymbol)
     }
 }
 
+static int GlueStringValue(int c)
+{
+  StringValue(c, FALSE);
+  return GLUE_STR_CONST;
+}
+
 static int SpecialValue(int c)
 {
     DECLARE_YYTEXT_BUFP(yyp);
@@ -2710,6 +2727,16 @@ static int token(void)
 		int k = xxgetc();
 		if (k == '\"' || k == '\'') {
 			return RawStringValue(k);
+		} else {
+			xxungetc(k);
+		}
+	}
+
+  /* glue strings */
+	if (c == 'g') {
+		int k = xxgetc();
+		if (k == '\"' || k == '\'') {
+			return GlueStringValue(k);
 		} else {
 			xxungetc(k);
 		}
@@ -3112,6 +3139,7 @@ static int yylex(void)
     case SYMBOL:
     case STR_CONST:
     case RAW_STR_CONST:
+    case GLUE_STR_CONST:
     case NUM_CONST:
     case NULL_CONST:
     case NEXT:

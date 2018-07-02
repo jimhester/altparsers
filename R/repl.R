@@ -103,9 +103,9 @@ parse_file <- function(x) {
 #' @param parser The parser to use, should take the file to parse as the first parameter
 #' @param envir The environment to evaluate the parsed code in
 #' @export
-src <- function(dir, files = NULL, parser = parse_file, envir = asNamespace(utils::packageName())) {
+src <- function(dir, parser = parse_file, files = NULL, envir = asNamespace(package)) {
   if (is.null(files)) {
-    files <- list.files(system.file(package = utils::packageName(), dir), full.names = TRUE)
+    files <- list.files(dir, full.names = TRUE)
   }
   for (f in files) {
     exprs <- parser(f)

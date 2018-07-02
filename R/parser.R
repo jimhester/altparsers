@@ -23,5 +23,5 @@ tidy_parse_file <- function(file) {
 
 
 .onLoad <- function(libname, pkgname) {
-  src("r2", parser = tidy_parse_file)
+  src(system.file(package = "altparsers", "r2"), parser = tidy_parse_file)
 }

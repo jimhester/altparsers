@@ -1,4 +1,4 @@
-Terminals unused in grammar
+Terminals which are not used
 
    ERROR
    INCOMPLETE_STRING
@@ -135,7 +135,7 @@ Grammar
 
    74 forcond: '(' SYMBOL IN expr ')'
 
-   75 exprlist: %empty
+   75 exprlist: /* empty */
    76         | expr_or_assign
    77         | exprlist ';' expr_or_assign
    78         | exprlist ';'
@@ -145,7 +145,7 @@ Grammar
    81 sublist: sub
    82        | sublist cr ',' sub
 
-   83 sub: %empty
+   83 sub: /* empty */
    84    | expr
    85    | SYMBOL EQ_ASSIGN
    86    | SYMBOL EQ_ASSIGN expr
@@ -154,13 +154,13 @@ Grammar
    89    | NULL_CONST EQ_ASSIGN
    90    | NULL_CONST EQ_ASSIGN expr
 
-   91 formlist: %empty
+   91 formlist: /* empty */
    92         | SYMBOL
    93         | SYMBOL EQ_ASSIGN expr
    94         | formlist ',' SYMBOL
    95         | formlist ',' SYMBOL EQ_ASSIGN expr
 
-   96 cr: %empty
+   96 cr: /* empty */
 
 
 Terminals, with rules where they appear
@@ -235,13 +235,13 @@ SLOT (301)
 PIPE (302) 46
 LOW (303)
 TILDE (304)
-UNOT (305)
-NOT (306)
+NOT (305)
+UNOT (306)
 SPECIAL (307) 24 32
-UMINUS (308)
-UPLUS (309)
-UNQUOTE (310) 22
-UNQUOTESPLICE (311) 23
+UNQUOTESPLICE (308) 23
+UNQUOTE (309) 22
+UPLUS (310)
+UMINUS (311)
 
 
 Nonterminals, with rules where they appear
@@ -279,7 +279,7 @@ cr (90)
     on left: 96, on right: 49 82
 
 
-State 0
+state 0
 
     0 $accept: . prog $end
 
@@ -303,8 +303,8 @@ State 0
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '\n'            shift, and go to state 25
@@ -317,21 +317,21 @@ State 0
     expr            go to state 31
 
 
-State 1
+state 1
 
     5 prog: error .
 
     $default  reduce using rule 5 (prog)
 
 
-State 2
+state 2
 
     1 prog: END_OF_INPUT .
 
     $default  reduce using rule 1 (prog)
 
 
-State 3
+state 3
 
    12 expr: STR_CONST .
    60     | STR_CONST . NS_GET SYMBOL
@@ -345,35 +345,35 @@ State 3
     $default  reduce using rule 12 (expr)
 
 
-State 4
+state 4
 
    10 expr: RAW_STR_CONST .
 
     $default  reduce using rule 10 (expr)
 
 
-State 5
+state 5
 
    11 expr: GLUE_STR_CONST .
 
     $default  reduce using rule 11 (expr)
 
 
-State 6
+state 6
 
     9 expr: NUM_CONST .
 
     $default  reduce using rule 9 (expr)
 
 
-State 7
+state 7
 
    13 expr: NULL_CONST .
 
     $default  reduce using rule 13 (expr)
 
 
-State 8
+state 8
 
    14 expr: SYMBOL .
    58     | SYMBOL . NS_GET SYMBOL
@@ -387,14 +387,14 @@ State 8
     $default  reduce using rule 14 (expr)
 
 
-State 9
+state 9
 
    49 expr: FUNCTION . '(' formlist ')' cr expr_or_assign
 
     '('  shift, and go to state 36
 
 
-State 10
+state 10
 
    53 expr: FOR . forcond expr_or_assign
 
@@ -403,7 +403,7 @@ State 10
     forcond  go to state 38
 
 
-State 11
+state 11
 
    51 expr: IF . ifcond expr_or_assign
    52     | IF . ifcond expr_or_assign ELSE expr_or_assign
@@ -413,7 +413,7 @@ State 11
     ifcond  go to state 40
 
 
-State 12
+state 12
 
    54 expr: WHILE . cond expr_or_assign
 
@@ -422,21 +422,21 @@ State 12
     cond  go to state 42
 
 
-State 13
+state 13
 
    70 expr: NEXT .
 
     $default  reduce using rule 70 (expr)
 
 
-State 14
+state 14
 
    71 expr: BREAK .
 
     $default  reduce using rule 71 (expr)
 
 
-State 15
+state 15
 
    55 expr: REPEAT . expr_or_assign
 
@@ -458,8 +458,8 @@ State 15
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -470,7 +470,7 @@ State 15
     expr            go to state 31
 
 
-State 16
+state 16
 
    25 expr: '?' . expr
 
@@ -492,8 +492,8 @@ State 16
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -502,7 +502,7 @@ State 16
     expr  go to state 44
 
 
-State 17
+state 17
 
    21 expr: '~' . expr
 
@@ -524,8 +524,8 @@ State 17
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -534,7 +534,7 @@ State 17
     expr  go to state 45
 
 
-State 18
+state 18
 
    19 expr: '+' . expr
 
@@ -556,8 +556,8 @@ State 18
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -566,7 +566,7 @@ State 18
     expr  go to state 46
 
 
-State 19
+state 19
 
    18 expr: '-' . expr
 
@@ -588,8 +588,8 @@ State 19
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -598,7 +598,7 @@ State 19
     expr  go to state 47
 
 
-State 20
+state 20
 
    24 expr: SPECIAL . expr
 
@@ -620,8 +620,8 @@ State 20
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -630,39 +630,7 @@ State 20
     expr  go to state 48
 
 
-State 21
-
-   22 expr: UNQUOTE . expr
-
-    STR_CONST       shift, and go to state 3
-    RAW_STR_CONST   shift, and go to state 4
-    GLUE_STR_CONST  shift, and go to state 5
-    NUM_CONST       shift, and go to state 6
-    NULL_CONST      shift, and go to state 7
-    SYMBOL          shift, and go to state 8
-    FUNCTION        shift, and go to state 9
-    FOR             shift, and go to state 10
-    IF              shift, and go to state 11
-    WHILE           shift, and go to state 12
-    NEXT            shift, and go to state 13
-    BREAK           shift, and go to state 14
-    REPEAT          shift, and go to state 15
-    '?'             shift, and go to state 16
-    '~'             shift, and go to state 17
-    '+'             shift, and go to state 18
-    '-'             shift, and go to state 19
-    SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
-    '('             shift, and go to state 23
-    '['             shift, and go to state 24
-    '{'             shift, and go to state 26
-    '!'             shift, and go to state 27
-
-    expr  go to state 49
-
-
-State 22
+state 21
 
    23 expr: UNQUOTESPLICE . expr
 
@@ -684,8 +652,40 @@ State 22
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
+    '('             shift, and go to state 23
+    '['             shift, and go to state 24
+    '{'             shift, and go to state 26
+    '!'             shift, and go to state 27
+
+    expr  go to state 49
+
+
+state 22
+
+   22 expr: UNQUOTE . expr
+
+    STR_CONST       shift, and go to state 3
+    RAW_STR_CONST   shift, and go to state 4
+    GLUE_STR_CONST  shift, and go to state 5
+    NUM_CONST       shift, and go to state 6
+    NULL_CONST      shift, and go to state 7
+    SYMBOL          shift, and go to state 8
+    FUNCTION        shift, and go to state 9
+    FOR             shift, and go to state 10
+    IF              shift, and go to state 11
+    WHILE           shift, and go to state 12
+    NEXT            shift, and go to state 13
+    BREAK           shift, and go to state 14
+    REPEAT          shift, and go to state 15
+    '?'             shift, and go to state 16
+    '~'             shift, and go to state 17
+    '+'             shift, and go to state 18
+    '-'             shift, and go to state 19
+    SPECIAL         shift, and go to state 20
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -694,7 +694,7 @@ State 22
     expr  go to state 50
 
 
-State 23
+state 23
 
    16 expr: '(' . expr_or_assign ')'
 
@@ -716,8 +716,8 @@ State 23
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -728,7 +728,7 @@ State 23
     expr            go to state 31
 
 
-State 24
+state 24
 
    17 expr: '[' . sublist ']'
 
@@ -750,8 +750,8 @@ State 24
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -764,14 +764,14 @@ State 24
     sub      go to state 57
 
 
-State 25
+state 25
 
     2 prog: '\n' .
 
     $default  reduce using rule 2 (prog)
 
 
-State 26
+state 26
 
    15 expr: '{' . exprlist '}'
 
@@ -793,8 +793,8 @@ State 26
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -808,7 +808,7 @@ State 26
     exprlist        go to state 59
 
 
-State 27
+state 27
 
    20 expr: '!' . expr
 
@@ -830,8 +830,8 @@ State 27
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -840,14 +840,14 @@ State 27
     expr  go to state 60
 
 
-State 28
+state 28
 
     0 $accept: prog . $end
 
     $end  shift, and go to state 61
 
 
-State 29
+state 29
 
     3 prog: expr_or_assign . '\n'
     4     | expr_or_assign . ';'
@@ -856,14 +856,14 @@ State 29
     ';'   shift, and go to state 63
 
 
-State 30
+state 30
 
     7 expr_or_assign: equal_assign .
 
     $default  reduce using rule 7 (expr_or_assign)
 
 
-State 31
+state 31
 
     6 expr_or_assign: expr .
     8 equal_assign: expr . EQ_ASSIGN expr_or_assign
@@ -960,7 +960,7 @@ State 31
     $default      reduce using rule 6 (expr_or_assign)
 
 
-State 32
+state 32
 
    60 expr: STR_CONST NS_GET . SYMBOL
    61     | STR_CONST NS_GET . STR_CONST
@@ -969,7 +969,7 @@ State 32
     SYMBOL     shift, and go to state 94
 
 
-State 33
+state 33
 
    64 expr: STR_CONST NS_GET_INT . SYMBOL
    65     | STR_CONST NS_GET_INT . STR_CONST
@@ -978,7 +978,7 @@ State 33
     SYMBOL     shift, and go to state 96
 
 
-State 34
+state 34
 
    58 expr: SYMBOL NS_GET . SYMBOL
    59     | SYMBOL NS_GET . STR_CONST
@@ -987,7 +987,7 @@ State 34
     SYMBOL     shift, and go to state 98
 
 
-State 35
+state 35
 
    62 expr: SYMBOL NS_GET_INT . SYMBOL
    63     | SYMBOL NS_GET_INT . STR_CONST
@@ -996,7 +996,7 @@ State 35
     SYMBOL     shift, and go to state 100
 
 
-State 36
+state 36
 
    49 expr: FUNCTION '(' . formlist ')' cr expr_or_assign
 
@@ -1007,14 +1007,14 @@ State 36
     formlist  go to state 102
 
 
-State 37
+state 37
 
    74 forcond: '(' . SYMBOL IN expr ')'
 
     SYMBOL  shift, and go to state 103
 
 
-State 38
+state 38
 
    53 expr: FOR forcond . expr_or_assign
 
@@ -1036,8 +1036,8 @@ State 38
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1048,7 +1048,7 @@ State 38
     expr            go to state 31
 
 
-State 39
+state 39
 
    73 ifcond: '(' . expr ')'
 
@@ -1070,8 +1070,8 @@ State 39
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1080,7 +1080,7 @@ State 39
     expr  go to state 105
 
 
-State 40
+state 40
 
    51 expr: IF ifcond . expr_or_assign
    52     | IF ifcond . expr_or_assign ELSE expr_or_assign
@@ -1103,8 +1103,8 @@ State 40
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1115,7 +1115,7 @@ State 40
     expr            go to state 31
 
 
-State 41
+state 41
 
    72 cond: '(' . expr ')'
 
@@ -1137,8 +1137,8 @@ State 41
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1147,7 +1147,7 @@ State 41
     expr  go to state 107
 
 
-State 42
+state 42
 
    54 expr: WHILE cond . expr_or_assign
 
@@ -1169,8 +1169,8 @@ State 42
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1181,14 +1181,14 @@ State 42
     expr            go to state 31
 
 
-State 43
+state 43
 
    55 expr: REPEAT expr_or_assign .
 
     $default  reduce using rule 55 (expr)
 
 
-State 44
+state 44
 
    25 expr: '?' expr .
    26     | expr . ':' expr
@@ -1254,7 +1254,7 @@ State 44
     $default  reduce using rule 25 (expr)
 
 
-State 45
+state 45
 
    21 expr: '~' expr .
    26     | expr . ':' expr
@@ -1317,7 +1317,7 @@ State 45
     $default  reduce using rule 21 (expr)
 
 
-State 46
+state 46
 
    19 expr: '+' expr .
    26     | expr . ':' expr
@@ -1363,7 +1363,7 @@ State 46
     $default  reduce using rule 19 (expr)
 
 
-State 47
+state 47
 
    18 expr: '-' expr .
    26     | expr . ':' expr
@@ -1409,7 +1409,7 @@ State 47
     $default  reduce using rule 18 (expr)
 
 
-State 48
+state 48
 
    24 expr: SPECIAL expr .
    26     | expr . ':' expr
@@ -1456,53 +1456,7 @@ State 48
     $default  reduce using rule 24 (expr)
 
 
-State 49
-
-   22 expr: UNQUOTE expr .
-   26     | expr . ':' expr
-   27     | expr . '+' expr
-   28     | expr . '-' expr
-   29     | expr . '*' expr
-   30     | expr . '/' expr
-   31     | expr . '^' expr
-   32     | expr . SPECIAL expr
-   33     | expr . '%' expr
-   34     | expr . '~' expr
-   35     | expr . '?' expr
-   36     | expr . LT expr
-   37     | expr . LE expr
-   38     | expr . EQ expr
-   39     | expr . NE expr
-   40     | expr . GE expr
-   41     | expr . GT expr
-   42     | expr . AND expr
-   43     | expr . OR expr
-   44     | expr . AND2 expr
-   45     | expr . OR2 expr
-   46     | expr . PIPE expr
-   47     | expr . LEFT_ASSIGN expr
-   48     | expr . RIGHT_ASSIGN expr
-   50     | expr . '(' sublist ')'
-   56     | expr . LBB sublist ']' ']'
-   57     | expr . '[' sublist ']'
-   66     | expr . '$' SYMBOL
-   67     | expr . '$' STR_CONST
-   68     | expr . '@' SYMBOL
-   69     | expr . '@' STR_CONST
-
-    LBB  shift, and go to state 67
-    '^'  shift, and go to state 87
-    '$'  shift, and go to state 88
-    '@'  shift, and go to state 89
-    '('  shift, and go to state 90
-    '['  shift, and go to state 91
-    '%'  shift, and go to state 92
-
-    '%'       [reduce using rule 22 (expr)]
-    $default  reduce using rule 22 (expr)
-
-
-State 50
+state 49
 
    23 expr: UNQUOTESPLICE expr .
    26     | expr . ':' expr
@@ -1548,14 +1502,60 @@ State 50
     $default  reduce using rule 23 (expr)
 
 
-State 51
+state 50
+
+   22 expr: UNQUOTE expr .
+   26     | expr . ':' expr
+   27     | expr . '+' expr
+   28     | expr . '-' expr
+   29     | expr . '*' expr
+   30     | expr . '/' expr
+   31     | expr . '^' expr
+   32     | expr . SPECIAL expr
+   33     | expr . '%' expr
+   34     | expr . '~' expr
+   35     | expr . '?' expr
+   36     | expr . LT expr
+   37     | expr . LE expr
+   38     | expr . EQ expr
+   39     | expr . NE expr
+   40     | expr . GE expr
+   41     | expr . GT expr
+   42     | expr . AND expr
+   43     | expr . OR expr
+   44     | expr . AND2 expr
+   45     | expr . OR2 expr
+   46     | expr . PIPE expr
+   47     | expr . LEFT_ASSIGN expr
+   48     | expr . RIGHT_ASSIGN expr
+   50     | expr . '(' sublist ')'
+   56     | expr . LBB sublist ']' ']'
+   57     | expr . '[' sublist ']'
+   66     | expr . '$' SYMBOL
+   67     | expr . '$' STR_CONST
+   68     | expr . '@' SYMBOL
+   69     | expr . '@' STR_CONST
+
+    LBB  shift, and go to state 67
+    '^'  shift, and go to state 87
+    '$'  shift, and go to state 88
+    '@'  shift, and go to state 89
+    '('  shift, and go to state 90
+    '['  shift, and go to state 91
+    '%'  shift, and go to state 92
+
+    '%'       [reduce using rule 22 (expr)]
+    $default  reduce using rule 22 (expr)
+
+
+state 51
 
    16 expr: '(' expr_or_assign . ')'
 
     ')'  shift, and go to state 109
 
 
-State 52
+state 52
 
    12 expr: STR_CONST .
    60     | STR_CONST . NS_GET SYMBOL
@@ -1572,7 +1572,7 @@ State 52
     $default  reduce using rule 12 (expr)
 
 
-State 53
+state 53
 
    13 expr: NULL_CONST .
    89 sub: NULL_CONST . EQ_ASSIGN
@@ -1583,7 +1583,7 @@ State 53
     $default  reduce using rule 13 (expr)
 
 
-State 54
+state 54
 
    14 expr: SYMBOL .
    58     | SYMBOL . NS_GET SYMBOL
@@ -1600,7 +1600,7 @@ State 54
     $default  reduce using rule 14 (expr)
 
 
-State 55
+state 55
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -1666,7 +1666,7 @@ State 55
     $default  reduce using rule 84 (sub)
 
 
-State 56
+state 56
 
    17 expr: '[' sublist . ']'
    82 sublist: sublist . cr ',' sub
@@ -1678,21 +1678,21 @@ State 56
     cr  go to state 114
 
 
-State 57
+state 57
 
    81 sublist: sub .
 
     $default  reduce using rule 81 (sublist)
 
 
-State 58
+state 58
 
    76 exprlist: expr_or_assign .
 
     $default  reduce using rule 76 (exprlist)
 
 
-State 59
+state 59
 
    15 expr: '{' exprlist . '}'
    77 exprlist: exprlist . ';' expr_or_assign
@@ -1705,7 +1705,7 @@ State 59
     '}'   shift, and go to state 117
 
 
-State 60
+state 60
 
    20 expr: '!' expr .
    26     | expr . ':' expr
@@ -1763,28 +1763,28 @@ State 60
     $default  reduce using rule 20 (expr)
 
 
-State 61
+state 61
 
     0 $accept: prog $end .
 
     $default  accept
 
 
-State 62
+state 62
 
     3 prog: expr_or_assign '\n' .
 
     $default  reduce using rule 3 (prog)
 
 
-State 63
+state 63
 
     4 prog: expr_or_assign ';' .
 
     $default  reduce using rule 4 (prog)
 
 
-State 64
+state 64
 
    47 expr: expr LEFT_ASSIGN . expr
 
@@ -1806,8 +1806,8 @@ State 64
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1816,7 +1816,7 @@ State 64
     expr  go to state 118
 
 
-State 65
+state 65
 
     8 equal_assign: expr EQ_ASSIGN . expr_or_assign
 
@@ -1838,8 +1838,8 @@ State 65
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1850,7 +1850,7 @@ State 65
     expr            go to state 31
 
 
-State 66
+state 66
 
    48 expr: expr RIGHT_ASSIGN . expr
 
@@ -1872,8 +1872,8 @@ State 66
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1882,7 +1882,7 @@ State 66
     expr  go to state 120
 
 
-State 67
+state 67
 
    56 expr: expr LBB . sublist ']' ']'
 
@@ -1904,8 +1904,8 @@ State 67
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1918,7 +1918,7 @@ State 67
     sub      go to state 57
 
 
-State 68
+state 68
 
    41 expr: expr GT . expr
 
@@ -1940,8 +1940,8 @@ State 68
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1950,7 +1950,7 @@ State 68
     expr  go to state 122
 
 
-State 69
+state 69
 
    40 expr: expr GE . expr
 
@@ -1972,8 +1972,8 @@ State 69
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -1982,7 +1982,7 @@ State 69
     expr  go to state 123
 
 
-State 70
+state 70
 
    36 expr: expr LT . expr
 
@@ -2004,8 +2004,8 @@ State 70
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2014,7 +2014,7 @@ State 70
     expr  go to state 124
 
 
-State 71
+state 71
 
    37 expr: expr LE . expr
 
@@ -2036,8 +2036,8 @@ State 71
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2046,7 +2046,7 @@ State 71
     expr  go to state 125
 
 
-State 72
+state 72
 
    38 expr: expr EQ . expr
 
@@ -2068,8 +2068,8 @@ State 72
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2078,7 +2078,7 @@ State 72
     expr  go to state 126
 
 
-State 73
+state 73
 
    39 expr: expr NE . expr
 
@@ -2100,8 +2100,8 @@ State 73
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2110,7 +2110,7 @@ State 73
     expr  go to state 127
 
 
-State 74
+state 74
 
    42 expr: expr AND . expr
 
@@ -2132,8 +2132,8 @@ State 74
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2142,7 +2142,7 @@ State 74
     expr  go to state 128
 
 
-State 75
+state 75
 
    43 expr: expr OR . expr
 
@@ -2164,8 +2164,8 @@ State 75
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2174,7 +2174,7 @@ State 75
     expr  go to state 129
 
 
-State 76
+state 76
 
    44 expr: expr AND2 . expr
 
@@ -2196,8 +2196,8 @@ State 76
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2206,7 +2206,7 @@ State 76
     expr  go to state 130
 
 
-State 77
+state 77
 
    45 expr: expr OR2 . expr
 
@@ -2228,8 +2228,8 @@ State 77
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2238,7 +2238,7 @@ State 77
     expr  go to state 131
 
 
-State 78
+state 78
 
    46 expr: expr PIPE . expr
 
@@ -2260,8 +2260,8 @@ State 78
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2270,7 +2270,7 @@ State 78
     expr  go to state 132
 
 
-State 79
+state 79
 
    35 expr: expr '?' . expr
 
@@ -2292,8 +2292,8 @@ State 79
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2302,7 +2302,7 @@ State 79
     expr  go to state 133
 
 
-State 80
+state 80
 
    34 expr: expr '~' . expr
 
@@ -2324,8 +2324,8 @@ State 80
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2334,7 +2334,7 @@ State 80
     expr  go to state 134
 
 
-State 81
+state 81
 
    27 expr: expr '+' . expr
 
@@ -2356,8 +2356,8 @@ State 81
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2366,7 +2366,7 @@ State 81
     expr  go to state 135
 
 
-State 82
+state 82
 
    28 expr: expr '-' . expr
 
@@ -2388,8 +2388,8 @@ State 82
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2398,7 +2398,7 @@ State 82
     expr  go to state 136
 
 
-State 83
+state 83
 
    29 expr: expr '*' . expr
 
@@ -2420,8 +2420,8 @@ State 83
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2430,7 +2430,7 @@ State 83
     expr  go to state 137
 
 
-State 84
+state 84
 
    30 expr: expr '/' . expr
 
@@ -2452,8 +2452,8 @@ State 84
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2462,7 +2462,7 @@ State 84
     expr  go to state 138
 
 
-State 85
+state 85
 
    32 expr: expr SPECIAL . expr
 
@@ -2484,8 +2484,8 @@ State 85
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2494,7 +2494,7 @@ State 85
     expr  go to state 139
 
 
-State 86
+state 86
 
    26 expr: expr ':' . expr
 
@@ -2516,8 +2516,8 @@ State 86
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2526,7 +2526,7 @@ State 86
     expr  go to state 140
 
 
-State 87
+state 87
 
    31 expr: expr '^' . expr
 
@@ -2548,8 +2548,8 @@ State 87
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2558,7 +2558,7 @@ State 87
     expr  go to state 141
 
 
-State 88
+state 88
 
    66 expr: expr '$' . SYMBOL
    67     | expr '$' . STR_CONST
@@ -2567,7 +2567,7 @@ State 88
     SYMBOL     shift, and go to state 143
 
 
-State 89
+state 89
 
    68 expr: expr '@' . SYMBOL
    69     | expr '@' . STR_CONST
@@ -2576,7 +2576,7 @@ State 89
     SYMBOL     shift, and go to state 145
 
 
-State 90
+state 90
 
    50 expr: expr '(' . sublist ')'
 
@@ -2598,8 +2598,8 @@ State 90
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2612,7 +2612,7 @@ State 90
     sub      go to state 57
 
 
-State 91
+state 91
 
    57 expr: expr '[' . sublist ']'
 
@@ -2634,8 +2634,8 @@ State 91
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2648,7 +2648,7 @@ State 91
     sub      go to state 57
 
 
-State 92
+state 92
 
    33 expr: expr '%' . expr
 
@@ -2670,8 +2670,8 @@ State 92
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2680,63 +2680,63 @@ State 92
     expr  go to state 148
 
 
-State 93
+state 93
 
    61 expr: STR_CONST NS_GET STR_CONST .
 
     $default  reduce using rule 61 (expr)
 
 
-State 94
+state 94
 
    60 expr: STR_CONST NS_GET SYMBOL .
 
     $default  reduce using rule 60 (expr)
 
 
-State 95
+state 95
 
    65 expr: STR_CONST NS_GET_INT STR_CONST .
 
     $default  reduce using rule 65 (expr)
 
 
-State 96
+state 96
 
    64 expr: STR_CONST NS_GET_INT SYMBOL .
 
     $default  reduce using rule 64 (expr)
 
 
-State 97
+state 97
 
    59 expr: SYMBOL NS_GET STR_CONST .
 
     $default  reduce using rule 59 (expr)
 
 
-State 98
+state 98
 
    58 expr: SYMBOL NS_GET SYMBOL .
 
     $default  reduce using rule 58 (expr)
 
 
-State 99
+state 99
 
    63 expr: SYMBOL NS_GET_INT STR_CONST .
 
     $default  reduce using rule 63 (expr)
 
 
-State 100
+state 100
 
    62 expr: SYMBOL NS_GET_INT SYMBOL .
 
     $default  reduce using rule 62 (expr)
 
 
-State 101
+state 101
 
    92 formlist: SYMBOL .
    93         | SYMBOL . EQ_ASSIGN expr
@@ -2746,7 +2746,7 @@ State 101
     $default  reduce using rule 92 (formlist)
 
 
-State 102
+state 102
 
    49 expr: FUNCTION '(' formlist . ')' cr expr_or_assign
    94 formlist: formlist . ',' SYMBOL
@@ -2756,21 +2756,21 @@ State 102
     ','  shift, and go to state 151
 
 
-State 103
+state 103
 
    74 forcond: '(' SYMBOL . IN expr ')'
 
     IN  shift, and go to state 152
 
 
-State 104
+state 104
 
    53 expr: FOR forcond expr_or_assign .
 
     $default  reduce using rule 53 (expr)
 
 
-State 105
+state 105
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -2835,7 +2835,7 @@ State 105
     '%'           shift, and go to state 92
 
 
-State 106
+state 106
 
    51 expr: IF ifcond expr_or_assign .
    52     | IF ifcond expr_or_assign . ELSE expr_or_assign
@@ -2845,7 +2845,7 @@ State 106
     $default  reduce using rule 51 (expr)
 
 
-State 107
+state 107
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -2910,21 +2910,21 @@ State 107
     '%'           shift, and go to state 92
 
 
-State 108
+state 108
 
    54 expr: WHILE cond expr_or_assign .
 
     $default  reduce using rule 54 (expr)
 
 
-State 109
+state 109
 
    16 expr: '(' expr_or_assign ')' .
 
     $default  reduce using rule 16 (expr)
 
 
-State 110
+state 110
 
    87 sub: STR_CONST EQ_ASSIGN .
    88    | STR_CONST EQ_ASSIGN . expr
@@ -2947,8 +2947,8 @@ State 110
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2959,7 +2959,7 @@ State 110
     expr  go to state 156
 
 
-State 111
+state 111
 
    89 sub: NULL_CONST EQ_ASSIGN .
    90    | NULL_CONST EQ_ASSIGN . expr
@@ -2982,8 +2982,8 @@ State 111
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -2994,7 +2994,7 @@ State 111
     expr  go to state 157
 
 
-State 112
+state 112
 
    85 sub: SYMBOL EQ_ASSIGN .
    86    | SYMBOL EQ_ASSIGN . expr
@@ -3017,8 +3017,8 @@ State 112
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -3029,21 +3029,21 @@ State 112
     expr  go to state 158
 
 
-State 113
+state 113
 
    17 expr: '[' sublist ']' .
 
     $default  reduce using rule 17 (expr)
 
 
-State 114
+state 114
 
    82 sublist: sublist cr . ',' sub
 
     ','  shift, and go to state 159
 
 
-State 115
+state 115
 
    79 exprlist: exprlist '\n' . expr_or_assign
    80         | exprlist '\n' .
@@ -3066,8 +3066,8 @@ State 115
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -3080,7 +3080,7 @@ State 115
     expr            go to state 31
 
 
-State 116
+state 116
 
    77 exprlist: exprlist ';' . expr_or_assign
    78         | exprlist ';' .
@@ -3103,8 +3103,8 @@ State 116
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -3117,14 +3117,14 @@ State 116
     expr            go to state 31
 
 
-State 117
+state 117
 
    15 expr: '{' exprlist '}' .
 
     $default  reduce using rule 15 (expr)
 
 
-State 118
+state 118
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3190,14 +3190,14 @@ State 118
     $default  reduce using rule 47 (expr)
 
 
-State 119
+state 119
 
     8 equal_assign: expr EQ_ASSIGN expr_or_assign .
 
     $default  reduce using rule 8 (equal_assign)
 
 
-State 120
+state 120
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3261,7 +3261,7 @@ State 120
     $default  reduce using rule 48 (expr)
 
 
-State 121
+state 121
 
    56 expr: expr LBB sublist . ']' ']'
    82 sublist: sublist . cr ',' sub
@@ -3273,7 +3273,7 @@ State 121
     cr  go to state 114
 
 
-State 122
+state 122
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3332,7 +3332,7 @@ State 122
     $default  reduce using rule 41 (expr)
 
 
-State 123
+state 123
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3391,7 +3391,7 @@ State 123
     $default  reduce using rule 40 (expr)
 
 
-State 124
+state 124
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3450,7 +3450,7 @@ State 124
     $default  reduce using rule 36 (expr)
 
 
-State 125
+state 125
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3509,7 +3509,7 @@ State 125
     $default  reduce using rule 37 (expr)
 
 
-State 126
+state 126
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3568,7 +3568,7 @@ State 126
     $default  reduce using rule 38 (expr)
 
 
-State 127
+state 127
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3627,7 +3627,7 @@ State 127
     $default  reduce using rule 39 (expr)
 
 
-State 128
+state 128
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3685,7 +3685,7 @@ State 128
     $default  reduce using rule 42 (expr)
 
 
-State 129
+state 129
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3745,7 +3745,7 @@ State 129
     $default  reduce using rule 43 (expr)
 
 
-State 130
+state 130
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3803,7 +3803,7 @@ State 130
     $default  reduce using rule 44 (expr)
 
 
-State 131
+state 131
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3863,7 +3863,7 @@ State 131
     $default  reduce using rule 45 (expr)
 
 
-State 132
+state 132
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3925,7 +3925,7 @@ State 132
     $default  reduce using rule 46 (expr)
 
 
-State 133
+state 133
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -3991,7 +3991,7 @@ State 133
     $default  reduce using rule 35 (expr)
 
 
-State 134
+state 134
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4054,7 +4054,7 @@ State 134
     $default  reduce using rule 34 (expr)
 
 
-State 135
+state 135
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4104,7 +4104,7 @@ State 135
     $default  reduce using rule 27 (expr)
 
 
-State 136
+state 136
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4154,7 +4154,7 @@ State 136
     $default  reduce using rule 28 (expr)
 
 
-State 137
+state 137
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4202,7 +4202,7 @@ State 137
     $default  reduce using rule 29 (expr)
 
 
-State 138
+state 138
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4250,7 +4250,7 @@ State 138
     $default  reduce using rule 30 (expr)
 
 
-State 139
+state 139
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4297,7 +4297,7 @@ State 139
     $default  reduce using rule 32 (expr)
 
 
-State 140
+state 140
 
    26 expr: expr . ':' expr
    26     | expr ':' expr .
@@ -4343,7 +4343,7 @@ State 140
     $default  reduce using rule 26 (expr)
 
 
-State 141
+state 141
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4389,35 +4389,35 @@ State 141
     $default  reduce using rule 31 (expr)
 
 
-State 142
+state 142
 
    67 expr: expr '$' STR_CONST .
 
     $default  reduce using rule 67 (expr)
 
 
-State 143
+state 143
 
    66 expr: expr '$' SYMBOL .
 
     $default  reduce using rule 66 (expr)
 
 
-State 144
+state 144
 
    69 expr: expr '@' STR_CONST .
 
     $default  reduce using rule 69 (expr)
 
 
-State 145
+state 145
 
    68 expr: expr '@' SYMBOL .
 
     $default  reduce using rule 68 (expr)
 
 
-State 146
+state 146
 
    50 expr: expr '(' sublist . ')'
    82 sublist: sublist . cr ',' sub
@@ -4429,7 +4429,7 @@ State 146
     cr  go to state 114
 
 
-State 147
+state 147
 
    57 expr: expr '[' sublist . ']'
    82 sublist: sublist . cr ',' sub
@@ -4441,7 +4441,7 @@ State 147
     cr  go to state 114
 
 
-State 148
+state 148
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4535,7 +4535,7 @@ State 148
     $default      reduce using rule 33 (expr)
 
 
-State 149
+state 149
 
    93 formlist: SYMBOL EQ_ASSIGN . expr
 
@@ -4557,8 +4557,8 @@ State 149
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -4567,7 +4567,7 @@ State 149
     expr  go to state 165
 
 
-State 150
+state 150
 
    49 expr: FUNCTION '(' formlist ')' . cr expr_or_assign
 
@@ -4576,7 +4576,7 @@ State 150
     cr  go to state 166
 
 
-State 151
+state 151
 
    94 formlist: formlist ',' . SYMBOL
    95         | formlist ',' . SYMBOL EQ_ASSIGN expr
@@ -4584,7 +4584,7 @@ State 151
     SYMBOL  shift, and go to state 167
 
 
-State 152
+state 152
 
    74 forcond: '(' SYMBOL IN . expr ')'
 
@@ -4606,8 +4606,8 @@ State 152
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -4616,14 +4616,14 @@ State 152
     expr  go to state 168
 
 
-State 153
+state 153
 
    73 ifcond: '(' expr ')' .
 
     $default  reduce using rule 73 (ifcond)
 
 
-State 154
+state 154
 
    52 expr: IF ifcond expr_or_assign ELSE . expr_or_assign
 
@@ -4645,8 +4645,8 @@ State 154
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -4657,14 +4657,14 @@ State 154
     expr            go to state 31
 
 
-State 155
+state 155
 
    72 cond: '(' expr ')' .
 
     $default  reduce using rule 72 (cond)
 
 
-State 156
+state 156
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4730,7 +4730,7 @@ State 156
     $default  reduce using rule 88 (sub)
 
 
-State 157
+state 157
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4796,7 +4796,7 @@ State 157
     $default  reduce using rule 90 (sub)
 
 
-State 158
+state 158
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4862,7 +4862,7 @@ State 158
     $default  reduce using rule 86 (sub)
 
 
-State 159
+state 159
 
    82 sublist: sublist cr ',' . sub
 
@@ -4884,8 +4884,8 @@ State 159
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -4897,42 +4897,42 @@ State 159
     sub   go to state 170
 
 
-State 160
+state 160
 
    79 exprlist: exprlist '\n' expr_or_assign .
 
     $default  reduce using rule 79 (exprlist)
 
 
-State 161
+state 161
 
    77 exprlist: exprlist ';' expr_or_assign .
 
     $default  reduce using rule 77 (exprlist)
 
 
-State 162
+state 162
 
    56 expr: expr LBB sublist ']' . ']'
 
     ']'  shift, and go to state 171
 
 
-State 163
+state 163
 
    50 expr: expr '(' sublist ')' .
 
     $default  reduce using rule 50 (expr)
 
 
-State 164
+state 164
 
    57 expr: expr '[' sublist ']' .
 
     $default  reduce using rule 57 (expr)
 
 
-State 165
+state 165
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -4998,7 +4998,7 @@ State 165
     $default  reduce using rule 93 (formlist)
 
 
-State 166
+state 166
 
    49 expr: FUNCTION '(' formlist ')' cr . expr_or_assign
 
@@ -5020,8 +5020,8 @@ State 166
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -5032,7 +5032,7 @@ State 166
     expr            go to state 31
 
 
-State 167
+state 167
 
    94 formlist: formlist ',' SYMBOL .
    95         | formlist ',' SYMBOL . EQ_ASSIGN expr
@@ -5042,7 +5042,7 @@ State 167
     $default  reduce using rule 94 (formlist)
 
 
-State 168
+state 168
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr
@@ -5107,35 +5107,35 @@ State 168
     '%'           shift, and go to state 92
 
 
-State 169
+state 169
 
    52 expr: IF ifcond expr_or_assign ELSE expr_or_assign .
 
     $default  reduce using rule 52 (expr)
 
 
-State 170
+state 170
 
    82 sublist: sublist cr ',' sub .
 
     $default  reduce using rule 82 (sublist)
 
 
-State 171
+state 171
 
    56 expr: expr LBB sublist ']' ']' .
 
     $default  reduce using rule 56 (expr)
 
 
-State 172
+state 172
 
    49 expr: FUNCTION '(' formlist ')' cr expr_or_assign .
 
     $default  reduce using rule 49 (expr)
 
 
-State 173
+state 173
 
    95 formlist: formlist ',' SYMBOL EQ_ASSIGN . expr
 
@@ -5157,8 +5157,8 @@ State 173
     '+'             shift, and go to state 18
     '-'             shift, and go to state 19
     SPECIAL         shift, and go to state 20
-    UNQUOTE         shift, and go to state 21
-    UNQUOTESPLICE   shift, and go to state 22
+    UNQUOTESPLICE   shift, and go to state 21
+    UNQUOTE         shift, and go to state 22
     '('             shift, and go to state 23
     '['             shift, and go to state 24
     '{'             shift, and go to state 26
@@ -5167,14 +5167,14 @@ State 173
     expr  go to state 175
 
 
-State 174
+state 174
 
    74 forcond: '(' SYMBOL IN expr ')' .
 
     $default  reduce using rule 74 (forcond)
 
 
-State 175
+state 175
 
    26 expr: expr . ':' expr
    27     | expr . '+' expr

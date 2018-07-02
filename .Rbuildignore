@@ -5,3 +5,4 @@ grammer.mk
 \.gitignore
 .*\.gitignore
 ^script\.R$
+^.*\.Rproj$

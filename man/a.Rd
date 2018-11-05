@@ -7,5 +7,5 @@
 Test
 }
 \examples{
-a()
+a(mtcars, hp > 10)
 }

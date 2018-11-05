@@ -4,6 +4,9 @@ The `altparsers` package allows the user or package developer to use
 alternative parsers for R code. It provides helpers for parsing and evaluating
 code and for starting a REPL with a non-standard R parser.
 
+[Ex](https://github.com/jimhester/ex) is an example package which contains code
+to be used by the example parsers defined in the altparser package.
+
 The expressions returned by the parsers are valid R expressions and are
 evaluated in the same way as normal R code.
 

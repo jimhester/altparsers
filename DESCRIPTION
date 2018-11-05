@@ -25,4 +25,4 @@ Imports:
 LinkingTo: Rcpp
 LazyData: yes
 URL: https://github.com/jimhester/altparsers
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

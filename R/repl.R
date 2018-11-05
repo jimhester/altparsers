@@ -99,11 +99,12 @@ parse_file <- function(x) {
 #' Source a file with an alternative parser
 #'
 #' @param dir The installed directory from which to parse files
+#' @param package The package
 #' @param files The files to parse
 #' @param parser The parser to use, should take the file to parse as the first parameter
 #' @param envir The environment to evaluate the parsed code in
 #' @export
-src <- function(dir, parser = parse_file, files = NULL, envir = asNamespace(package)) {
+src <- function(dir, package, parser = parse_file, files = NULL, envir = asNamespace(package)) {
   if (is.null(files)) {
     files <- list.files(dir, full.names = TRUE)
   }
